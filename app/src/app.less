@@ -1,0 +1,145 @@
+@pink: #9D6381;
+@accent: #612940;
+
+* {
+  box-sizing:border-box;
+}
+
+html {
+  font-size:18px;
+}
+
+.add-post-button {
+  position:fixed;
+  right: 2%;
+  bottom: 2%;
+  z-index: 66;
+}
+.add-post-button, .change-tab-button, .edit-post-button, .delete-post-button {
+  cursor: pointer;
+  color: @pink;
+}
+.add-post-button:hover, .change-tab-button:hover, .edit-post-button:hover, .delete-post-button:hover {
+  color: @accent;
+}
+
+.topbar {
+  background:@pink;
+  color:white;
+  width:100%;
+  z-index:9999;
+  padding:5px 20px;
+
+h1 {
+  cursor:pointer;
+}
+
+nav {
+  margin-top:25px;
+
+ul {
+  padding:0;
+  margin:0;
+
+li {
+  display:inline-block;
+  padding:10px;
+
+a {
+  color:white;
+  text-decoration:none;
+}
+}
+}
+}
+}
+
+
+
+ul.post-grid {
+  margin:0;
+  padding:0;
+  list-style-type:none;
+
+li {
+  padding:20px;
+  cursor:pointer;
+  transition: background linear 0.5s;
+  border-bottom:1px solid @accent;
+
+&:hover {
+   background:@accent;
+   color:white;
+
+h3 {
+  color: white;
+}
+
+}
+}
+}
+
+
+.content {
+  width:100%;
+  position:relative;
+  padding:20px 40px 20px;
+}
+
+h2, h3 {
+  color: @accent;
+}
+
+.post {
+  -webkit-transition:0.5s linear all;
+  transition:0.5s linear all;
+  opacity:1;
+  padding-bottom:30px;
+
+cite {
+  display:inline-block;
+  padding:10px 0;
+}
+}
+
+.comments {
+ul {
+  margin:0;
+  padding:0;
+li {
+  list-style-type:none;
+  padding:20px 5px;
+  border-bottom:1px @pink solid;
+}
+}
+}
+
+.post.ng-hide {
+  opacity:0;
+}
+
+.post.ng-hide-add, .post.ng-hide-remove {
+  display:block!important;
+}
+
+form {
+  width:100%;
+}
+input, textarea {
+  display:block;
+  width:100%;
+  padding:10px;
+  font-size:1.1em;
+}
+
+.ng-invalid.ng-dirty {
+  border-color:red;
+}
+
+.ng-valid.ng-dirty {
+  border-color:green;
+}
+
+img {
+  max-width:100%;
+}

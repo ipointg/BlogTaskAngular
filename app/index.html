@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>My AngularJS App</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>
+  <script src="app.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="app.css">
+</head>
+<body ng-app="blogApp">
+
+<div ng-controller="BlogController as blog">
+
+  <div class="topbar">
+    <div class="container">
+      <div class="row">
+        <div class="col-s-4">
+          <h1 ng-click="blog.selectTab('blog')" class="push-left">{{blog.title}}</h1>
+        </div>
+        <div class="offset-s-4 col-s-4">
+          <nav role='navigation' class="push-right">
+            <ul>
+              <li><a href="#" ng-click="blog.selectTab('blog')">See All Posts</a></li> //
+              <li><a href="#" ng-click="blog.selectTab('new')">Add New Post</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="add-post-button" ng-click="blog.selectTab('new')"><i class="fa fa-plus-circle fa-4x" aria-hidden="true"></i></div>
+  <div class="content">
+    <div class="container">
+      <div class="row">
+        <ul class="post-grid" ng-show="blog.isSelected('blog')">
+          <li ng-repeat="post in blog.posts" class="col-s-4" ng-class="{ 'reset-s' : $index%3==0 }" ng-click="blog.selectTab($index)" >
+            <h3>{{post.title}}</h3>
+            <p>{{post.body[0] | limitTo:70}}...</p>
+            <p class="fa fa-comment push-left"> {{post.comments.length}}
+            </p>
+            <p class="fa fa-heart push-right"> {{post.likes}}
+            </p>
+          </li>
+        </ul>
+        <div class="post" ng-repeat="post in blog.posts" ng-show="blog.isSelected($index)">
+          <div>
+            <div class="row">
+              <div class="change-tab-button col-sm-1" ng-click="blog.selectTab('blog')"><i class="fa fa-arrow-circle-left fa-4x" aria-hidden="true"></i></div>
+              <div class="edit-post-button col-sm-1" ng-click="blog.editPost()"><i class="fa fa-pencil fa-4x" aria-hidden="true"></i></div>
+              <div class="delete-post-button col-sm-1" ng-click="blog.deletePost(post)"><i class="fa fa-trash-o fa-4x" aria-hidden="true"></i></div>
+            </div>
+            <h2 ng-hide="blog.post.editor">{{post.title}}</h2>
+            <cite ng-hide="blog.post.editor">by {{post.author}} on {{post.createdOn | date}}</cite>
+
+            <div class="post-body" ng-hide="blog.post.editor">
+              <p ng-repeat="paragraph in post.body">
+                {{paragraph}}
+              </p>
+            </div>
+
+            <div class="post" ng-show="blog.post.editor">
+              <h2>Edit Post</h2>
+
+              <form name="postForm" ng-submit="blog.selectTab($index)" novalidate>
+                <h4>Edit Title</h4>
+                <input type="text" ng-model="post.title"/>
+                <h4>Edit Body</h4>
+                <textarea ng-model="post.body" ng-list="/\n/" rows="10"></textarea>
+                <input type="submit" value="Submit" />
+                </select></form>
+
+            </div>
+
+            <div class="comments" ng-controller="CommentController as commentCtrl">
+              <button class="fa fa-heart" ng-click="post.likes = post.likes+1"> {{post.likes}}</button>
+              <h3>Comments</h3>
+              <ul>
+                <li ng-repeat="comment in post.comments">
+                  "{{comment.body}}"
+                  <cite>- <b>{{comment.author}}</b></cite>
+                </li>
+              </ul>
+              <form name="commentForm" ng-submit="commentForm.$valid && commentCtrl.addComment(post)" novalidate>
+
+
+                <h4>Add Comment</h4>
+                <textarea ng-model="commentCtrl.comment.body" cols="30" rows="10" required></textarea>
+                <label for="">by:</label>
+                <input type="text" ng-model="commentCtrl.comment.author" required placeholder="Name"/>
+
+                <input type="submit" value="Submit" />
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="post" ng-show="blog.isSelected('new')">
+          <h2>Add New Post</h2>
+
+          <form name="postForm" ng-submit=" blog.addPost()" novalidate>
+            <h4>Title</h4>
+            <input type="text" ng-model="blog.post.title"/>
+            <h4>Body</h4>
+            <textarea ng-model="blog.post.body" ng-list="/\n/" rows="10"></textarea>
+            <label for="">by:</label>
+            <input type="text" ng-model="blog.post.author" placeholder="Author Name" required/>
+
+            <input type="submit" value="Submit" />
+            </select></form>
+
+        </div>
+
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+</body>
+</html>
